@@ -31,5 +31,37 @@
     3. Foundations which describe what kinds of refined data can be produced from raw data
     4. Structures for representing data
 * There is an intimate connection between the structuring of data, and the synthesis (The combination of component or elements to form a connected whole) of algorithms.
- 
 
+## Data Types
+* In programming language, data type is a set of data with values having predefined characteristics
+* At the top level there are two types of data types
+    1. System defined data types (primitive data types): int, float, char, double, bool, etc.
+    2. User defined data types: structure in C and class in Java
+# Data Structure
+* Data structure is a specialized format for organizing and storing data.
+* Depending on the organization of the elements, datastructure are classified into two types:
+    1. Linear data structure: Elements are accessed sequential order. (linked list, stacks, queues)
+    2. Non-linear data structure: Elements are stored and accessed in a non linear order. (Trees and graphs)
+# Abstract Data Types(ADTs)
+* Data structure along with their operations are called Abstract Data Types(ADTs)
+* ADT consists of two parts:
+    1. Declaration of data
+    2. Declaration of operation
+* Examples: Linked list, Stacks, Queues, Priority Queues, Binary trees, Dictionaries, Disjoint sets, Hash Tables, Graphs, and many other.
+# Algorithm
+* An algorithm is the step-by-step instructions to solve a given problem
+* **Running time analysis**: is the process of determining how processing time increases as the size of the problem (input size) increases.
+* **Rate of growth**: is the rate at which the running time increases as a function of input.
+* Types of Analysis:
+    1. Worst case: Defines input for which the algorithm takes huge time.
+    2. Best case: Defines the input for which the algorithm takes lowest time.
+    3. Average case: Provides a prediction about running time of the algorithm; assumes that the input is random.
+        * lower Bound &lt;=Average Time &lt;= Upper Bond
+* Asymptotic notation(mathematical notation to describe the running time of an algorithm) of algorithm be f(n), where n is input size.
+# Big-O-Notation
+* This notation gives tight upper bond of the given function i.e., at larger values of n, the upper bond of f(n) is g(n) OR f(n)=O(g(n)).
+* O-notation is defined as O(g(n))={f(n): there exist positive constants c and n<sub>0</sub> such that 0&lt;=f(n)&lt;=cg(n) for all n&gt;=n<sub>0</sub>}. The goal is to give smallest rate of growth g(n) greater than or equal to given algorithms rate of growth f(n).(in general rate of growth at lower value of n is not important)
+* O(g(n)) is the set of functions with smaller or same order of growth as g(n)
+# Omega-Notation
+* This notation gives the tighter lower bound of the given algorithm (at larger value of n) and we represent it as f(n)=Omega(g(n)).
+* omega(g(n))={f(n): there exist positive constant c and n<sub>0</sub>, such that 0&lt;=cg(n)&lt;=f(n) for all n &gt;=n<sub>0</sub>}. The goal is to give largest rate of growth g(n) which is less than or equal to given algorithms rate of growth f(n)

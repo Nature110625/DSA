@@ -9,7 +9,7 @@ int main(){
     int ans;
     printf("Enter the size of queue: ");
     scanf("%d", &size);
-    que=(int *)malloc(size);
+    que=(int *)malloc(size*sizeof(int));
     printf("1. to insert in queue.\n2. to delete from queue.\n3. To display queue.\n4. to exit this program.");
     do{
         printf("\nEnter your choice: ");
@@ -50,8 +50,7 @@ void inque(){
         return;
     }
     printf("Enter a number to insert in queue: ");
-    scanf("%d", &num);
-    que[++rear]=num;
+    scanf("%d", &que[++rear]);
 }
 int deque(){
     if(rear==-1){
