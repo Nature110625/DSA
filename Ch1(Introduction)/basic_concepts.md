@@ -52,4 +52,15 @@
     * ease with which we can remove these errors depends on the design and coding decision made earlier.
     * A large undocumented program written in spaghetti code generates new errors while debugging
     * On the other hand, debugging a well documented program that is divided into autonomous(having the freedom to govern itself or control it's own affair) units that interact through parameters is far easier. Best if each unit is tested separately and then integrated into the system.
+## Algorithm specification
+### Selection_sort
+* From those integers that are currently unsorted, find the smallest and place it next in the sorted list.
+* Function's code are easier to read than that of the `macro` but the `macro` works with any data type.
+* `rand` function, defined in math.h to randomly generate a list of numbers.
+* Function `sort(list, n)` correctly sorts a set of n&ge;1 integers. The result remains in `list[0], ..., list[n-1]` such that `list[0]&le;list[1]&le;...&le;list[n-1]`
+### Recursive Algorithm
+* Function can call themselves (direct recursion) or they may call other functuons that invoke the calling functuon again (indirect recursion).
+* Any function that is written using assignment, if-else and while statements can be written recursively.
+* When should we express an algorithm recursively
+    * When problem itself is defined recursively (like factorials,fibonacci, and binomial coefficient)
 
