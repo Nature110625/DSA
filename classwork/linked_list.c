@@ -6,6 +6,8 @@ struct node{
 };
 
 struct node *create_list(struct node* start);
+void display(struct node *start);
+
 int main(){
     struct node *start=NULL;
     int choice, data, item, pos;
@@ -29,9 +31,9 @@ int main(){
             case 1:
                 start=create_list(start);
                 break;
-            // case 2:
-            //     display(start);
-            //     break;
+            case 2:
+                display(start);
+                break;
             // case 3:
             //     count(start);
             //     break;
@@ -98,4 +100,15 @@ struct node *create_list(struct node* start){
     start->info=val;
     start->link=NULL;
     return start;
+}
+void display(struct node *start){
+    if(start==NULL){
+        printf("The list is empty.");
+        return;
+    }
+    struct node *p;
+    while(p!=NULL){
+        printf("%d ", p->info);
+        p=p->link;
+    }
 }
