@@ -24,7 +24,7 @@ void permute(char *list, int i, int n){
     else{
         for(int j=i; j<=n; j++){
             SWAP(list[i], list[j], temp);
-            permute(list, i+1, n);
+            permute(list, i+1, n);  //here we can't use ++i because next line needs i's non increemented value 
             SWAP(list[i], list[j], temp);
         }
     }
