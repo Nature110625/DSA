@@ -90,7 +90,7 @@ int deque(){
         front=0;    //if queue is not empty in the circular queue the index just above the index size-l is 0th index
     else
         front++;
-    if(rear-front==size-1||front-rear==1)   //just after deletion of last element of circulat queue, front and rear variable gets updated to -1(condition that shows queue is empty).
+    if(isfull())   //just after deletion of last element of circulat queue, front and rear variable gets updated to -1(condition that shows queue is empty).
                                             //The condition of full queue is same as that of empty queue, So we manually manage emptied queue just after deleting last element to eradicate further confusion 
         front=rear=-1;
     return val;

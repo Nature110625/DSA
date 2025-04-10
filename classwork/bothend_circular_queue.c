@@ -14,7 +14,7 @@ int main(){
     printf("Enter the size of queue: ");
     scanf("%d", &size);
     que=(int *)malloc(size*sizeof(int));
-    printf("1. to insert in queue from front.\n2. to delete from queue from front.\n3. to insert in queue from rear.\n2. to delete from queue from rear.\n");
+    printf("1. to insert in queue from front.\n2. to delete from queue from front.\n3. to insert in queue from rear.\n4. to delete from queue from rear.\n");
     printf("5. To display queue.\n6. to exit this program.\n");
     do{
         printf("\nEnter your choice: ");

@@ -7,25 +7,30 @@ struct node{
 
 struct node *create_list(struct node* start);
 void display(struct node *start);
+int count(struct node *start);
+int search(struct node *start, int data);
+struct node *addatbeg(struct node *start, int data);
+struct node *addatend(struct node *start, int data);
+struct node *addatpos(struct node *start, int data, int pos);
 
 int main(){
     struct node *start=NULL;
-    int choice, data, item, pos;
+    int choice, data, item, pos, temp;
     printf("This is a menu driven program: \n");
     printf("1. create a list\n");
     printf("2. Display\n");
-    printf("3. search\n");
-    printf("4. Count\n");
-    printf("5. Add to empty list\n");
+    printf("3. Count\n");
+    printf("4. search\n");
+    printf("5. Add at beginning\n");
     printf("6. Add at end\n");
-    printf("7. Add after node\n");
+    printf("7. Add at given position\n");
     printf("8. Add before node\n");
     printf("9. Add at position\n");
     printf("10. Delete\n");
     printf("11. Reverse\n");
     printf("12. Quit\n\n");
     while(1){
-        printf("Enter your choice: ");
+        printf("\nEnter your choice: ");
         scanf("%d", &choice);
         switch(choice){
             case 1:
@@ -34,30 +39,32 @@ int main(){
             case 2:
                 display(start);
                 break;
-            // case 3:
-            //     count(start);
-            //     break;
-            // case 4: 
-            //     printf("Enter the element to be searched: ");
-            //     scanf("%d", &data);
-            //     search(start, data);
-            //     break;
-            // case 5:
-            //     printf("Enter the element to be inserted: ");
-            //     scanf("%d", &data);
-            //     start= addatbeg(start, data);
-            //     break;
-            // case 6: 
-            //     printf("Enter the element to be inserted: ");
-            //     scanf("%d", &data);
-            //     start=addatend(start, data);
-            // case 7: 
-            //     printf("Enter the element to be inserted: ");
-            //     scanf("%d", &data);
-            //     printf("Enter the element after which to insert: ");
-            //     scanf("%d", &item);
-            //     start=addafter(start, data, item);
-            //     break;
+            case 3:
+                printf("Number of nodes present in linked list: %d", count(start));
+                break;
+            case 4: 
+                printf("Enter the element to be searched: ");
+                scanf("%d", &data);
+                temp=search(start, data);
+                temp==0?printf("Entered element is not present in list."):printf("Entered element is at position %d", temp);
+                break;
+            case 5:
+                printf("Enter the element to be inserted: ");
+                scanf("%d", &data);
+                start= addatbeg(start, data);
+                break;
+            case 6: 
+                printf("Enter the element to be inserted: ");
+                scanf("%d", &data);
+                start=addatend(start, data);
+                break;
+            case 7: 
+                printf("Enter the element to be inserted: ");
+                scanf("%d", &data);
+                printf("Enter the position at which to insert: ");
+                scanf("%d", &pos);
+                start=addatpos(start, data, pos);
+                break;
             // case 8:
             //     printf("Enter the element to be inserted: ");
             //     scanf("%d", &data);
@@ -66,12 +73,7 @@ int main(){
             //     start=addbefore(start, data, item);
             //     break;
             // case 9:
-            //     printf("Enter the element to be inserted: ");
-            //     scanf("%d", &data);
-            //     printf("Enter the position at which to insert: ");
-            //     scanf("%d", &pos);
-            //     start=assatpos(start, data, pos);
-            //     break;
+            //     
             // case 10:
             //     printf("Enter the element to be deleted: ");
             //     scanf("%d", &data);
@@ -90,7 +92,7 @@ int main(){
 
 struct node *create_list(struct node* start){
     if(start!=NULL){
-        printf("Printf list had already been created.\n");
+        printf("List had already been created.\n");
         return start;
     }
     int val;
@@ -106,9 +108,78 @@ void display(struct node *start){
         printf("The list is empty.");
         return;
     }
-    struct node *p;
+    struct node *p=start;
     while(p!=NULL){
         printf("%d ", p->info);
         p=p->link;
     }
+}
+int count(struct node *start){
+    int count=0;
+    while(start!=NULL){
+        count++;
+        start=start->link;
+    }
+    return count;
+}
+int search(struct node *start, int data){
+    int pos=1;
+    while(1){
+        if(start==NULL)
+            return 0;
+        if(start->info==data)
+            break;
+        pos++;
+        start=start->link; 
+    }
+    return pos;
+}
+struct node *addatbeg(struct node *start, int data){
+    struct node *temp;
+    temp=(struct node *)malloc(sizeof(struct node));
+    temp->info=data;
+    temp->link=start;
+    start=temp;
+    return start;
+}
+struct node *addatend(struct node *start, int data){
+    struct node *temp, *ptr=start;
+    temp=(struct node *)malloc(sizeof(struct node));
+    temp->info=data;
+    temp->link=NULL;
+    if(start==NULL)
+        start=temp;
+    else{
+        while(ptr->link!=NULL)
+            ptr=ptr->link;
+        ptr->link=temp;
+    }
+    return start;
+}
+struct node *addatpos(struct node *start, int data, int pos){
+    struct node *temp, *ptr=start;
+    int i;
+    temp=(struct node *)malloc(sizeof(struct node));
+    temp->info=data;
+    temp->link=NULL;
+    for(i=2; i<pos; i++){
+        if(ptr!=NULL)
+            ptr=ptr->link;
+        else{
+            if(i==1)
+                break;
+            else{
+                printf("The required position does not exist in current list.");
+                return start;
+            }
+        }
+    }
+    if(i<2){
+        temp->link=start;
+        start=temp;
+        return start;
+    }
+    temp->link=ptr;
+    ptr->link=temp;
+    return start;
 }
