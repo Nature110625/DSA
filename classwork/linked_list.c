@@ -14,6 +14,7 @@ struct node *addatend(struct node *start, int data);
 struct node *addatpos(struct node *start, int data, int pos);
 struct node *addbefore(struct node *start, int data, int val);
 struct node *addafter(struct node *start, int data, int val);
+struct node *delatpos(struct node *start, int pos);
 
 int main(){
     struct node *start=NULL;
@@ -27,7 +28,8 @@ int main(){
     printf("6. Add at end\n");
     printf("7. Add at given position\n");
     printf("8. Add before node\n");
-    printf("9. Add at position\n");
+    printf("9. Add after node\n");
+    printf("10. delete at position\n");
     printf("10. Delete\n");
     printf("11. Reverse\n");
     printf("12. Quit\n\n");
@@ -82,9 +84,9 @@ int main(){
                 start=addafter(start, data, item);
                 break;   
             case 10:
-                printf("Enter the element to be deleted: ");
+                printf("Enter the position of element to be deleted: ");
                 scanf("%d", &data);
-                start=del(start, data);
+                start=delatpos(start, data);
                 break;
             // case 11:
             //     start=reverse(start);
@@ -168,7 +170,7 @@ struct node *addatpos(struct node *start, int data, int pos){
     temp=(struct node *)malloc(sizeof(struct node));
     temp->info=data;
     temp->link=NULL;
-    if(pos<=1&&start==NULL){//To add at position 1 even if list is empty
+    if(pos<=1||start==NULL){//To add at position 1 even if list is empty
         temp->link=start;
         start=temp;
         return start;
@@ -189,11 +191,36 @@ struct node *addatpos(struct node *start, int data, int pos){
 
 struct node *addbefore(struct node *start, int data, int val){
     int pos=search(start, val);
-    start=addatpos(start, data, pos);
+    if(pos==0)
+        printf("value is not present in the list");
+    else
+        start=addatpos(start, data, pos);
     return start;
 }
 struct node *addafter(struct node *start, int data, int val){
     int pos=search(start, val)+1;
-    start=addatpos(start, data, pos);
+    if(pos==1)
+        printf("Value is not present in the list");
+    else
+        start=addatpos(start, data, pos);
+    return start;
+}
+struct node *delatpos(struct node *start, int pos){
+    struct node *ptr=start;
+    if(start==NULL){
+        printf("List is empty.");
+        return start;
+    }
+    if(pos<2)
+        return start->link; 
+    for(int i=1; i<=pos; i++){
+        if(ptr==NULL){
+            printf("The required position does not exist in current list.");
+            return start;
+        }
+        if(i>2)
+            ptr=ptr->link;
+    }
+    ptr->link=ptr->link->link;
     return start;
 }
