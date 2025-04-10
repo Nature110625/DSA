@@ -12,6 +12,8 @@ int search(struct node *start, int data);
 struct node *addatbeg(struct node *start, int data);
 struct node *addatend(struct node *start, int data);
 struct node *addatpos(struct node *start, int data, int pos);
+struct node *addbefore(struct node *start, int data, int val);
+struct node *addafter(struct node *start, int data, int val);
 
 int main(){
     struct node *start=NULL;
@@ -65,20 +67,25 @@ int main(){
                 scanf("%d", &pos);
                 start=addatpos(start, data, pos);
                 break;
-            // case 8:
-            //     printf("Enter the element to be inserted: ");
-            //     scanf("%d", &data);
-            //     printf("Enter the element before which to insert: ");
-            //     scanf("%d", &item);
-            //     start=addbefore(start, data, item);
-            //     break;
-            // case 9:
-            //     
-            // case 10:
-            //     printf("Enter the element to be deleted: ");
-            //     scanf("%d", &data);
-            //     start=del(start, data);
-            //     break;
+            case 8:
+                printf("Enter the element to be inserted: ");
+                scanf("%d", &data);
+                printf("Enter the element before which to insert: ");
+                scanf("%d", &item);
+                start=addbefore(start, data, item);
+                break;
+            case 9:
+                printf("Enter the element to be inserted: ");
+                scanf("%d", &data);
+                printf("Enter the element after which to insert: ");
+                scanf("%d", &item);
+                start=addafter(start, data, item);
+                break;   
+            case 10:
+                printf("Enter the element to be deleted: ");
+                scanf("%d", &data);
+                start=del(start, data);
+                break;
             // case 11:
             //     start=reverse(start);
             //     break;
@@ -158,28 +165,35 @@ struct node *addatend(struct node *start, int data){
 }
 struct node *addatpos(struct node *start, int data, int pos){
     struct node *temp, *ptr=start;
-    int i;
     temp=(struct node *)malloc(sizeof(struct node));
     temp->info=data;
     temp->link=NULL;
-    for(i=2; i<pos; i++){
-        if(ptr!=NULL)
-            ptr=ptr->link;
-        else{
-            if(i==1)
-                break;
-            else{
-                printf("The required position does not exist in current list.");
-                return start;
-            }
-        }
-    }
-    if(i<2){
+    if(pos<=1&&start==NULL){//To add at position 1 even if list is empty
         temp->link=start;
         start=temp;
         return start;
     }
-    temp->link=ptr;
+    //ptr should point at position one less than the position were new element is to be added
+    for(int i=1; i<=pos; i++){   
+        if(ptr==NULL){
+            printf("The required position does not exist in current list.");
+            return start;
+        }
+        if(i>2)     //since we dont need to update ptr upto 2nd position.
+            ptr=ptr->link;
+    }
+    temp->link=ptr->link;
     ptr->link=temp;
+    return start;
+}
+
+struct node *addbefore(struct node *start, int data, int val){
+    int pos=search(start, val);
+    start=addatpos(start, data, pos);
+    return start;
+}
+struct node *addafter(struct node *start, int data, int val){
+    int pos=search(start, val)+1;
+    start=addatpos(start, data, pos);
     return start;
 }
