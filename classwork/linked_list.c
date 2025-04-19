@@ -15,6 +15,10 @@ struct node *addatpos(struct node *start, int data, int pos);
 struct node *addbefore(struct node *start, int data, int val);
 struct node *addafter(struct node *start, int data, int val);
 struct node *delatpos(struct node *start, int pos);
+struct node *delval(struct node *start, int val);
+struct node *delbeg(struct node *start);
+struct node *delend(struct node* start);
+struct node* reverse(struct node*start, struct node * prev);
 
 int main(){
     struct node *start=NULL;
@@ -29,10 +33,12 @@ int main(){
     printf("7. Add at given position\n");
     printf("8. Add before node\n");
     printf("9. Add after node\n");
-    printf("10. delete at position\n");
-    printf("10. Delete\n");
-    printf("11. Reverse\n");
-    printf("12. Quit\n\n");
+    printf("10. Delete from beginning\n");
+    printf("11. Delete from ending\n");
+    printf("12. delete at position\n");
+    printf("13. Delete value\n");
+    printf("14. Reverse\n");
+    printf("15. Quit\n\n");
     while(1){
         printf("\nEnter your choice: ");
         scanf("%d", &choice);
@@ -82,16 +88,31 @@ int main(){
                 printf("Enter the element after which to insert: ");
                 scanf("%d", &item);
                 start=addafter(start, data, item);
-                break;   
+                break;
             case 10:
+                start= delbeg(start);
+                break;
+            case 11: 
+                start=delend(start);
+                break;   
+            case 12:
                 printf("Enter the position of element to be deleted: ");
                 scanf("%d", &data);
                 start=delatpos(start, data);
                 break;
-            // case 11:
-            //     start=reverse(start);
-            //     break;
-            case 12:
+            case 13:
+                printf("Enter the value you want to delete: ");
+                scanf("%d", &data);
+                start=delval(start, data);
+                break;
+            case 14:
+                if(start==NULL){
+                    printf("The list is empty.");
+                    break;
+                }
+                start=reverse(start, NULL);
+                break;
+            case 15:
                 exit(1);
             default:
                 printf("Wrong choice\n");
@@ -114,7 +135,7 @@ struct node *create_list(struct node* start){
 }
 void display(struct node *start){
     if(start==NULL){
-        printf("The list is empty.");
+        printf("The list is empty.\n");
         return;
     }
     struct node *p=start;
@@ -178,7 +199,7 @@ struct node *addatpos(struct node *start, int data, int pos){
     //ptr should point at position one less than the position were new element is to be added
     for(int i=1; i<=pos; i++){   
         if(ptr==NULL){
-            printf("The required position does not exist in current list.");
+            printf("The required position does not exist in current list.\n");
             return start;
         }
         if(i>2)     //since we dont need to update ptr upto 2nd position.
@@ -188,11 +209,10 @@ struct node *addatpos(struct node *start, int data, int pos){
     ptr->link=temp;
     return start;
 }
-
 struct node *addbefore(struct node *start, int data, int val){
     int pos=search(start, val);
     if(pos==0)
-        printf("value is not present in the list");
+        printf("value is not present in the list\n");
     else
         start=addatpos(start, data, pos);
     return start;
@@ -200,27 +220,72 @@ struct node *addbefore(struct node *start, int data, int val){
 struct node *addafter(struct node *start, int data, int val){
     int pos=search(start, val)+1;
     if(pos==1)
-        printf("Value is not present in the list");
+        printf("Value is not present in the list\n");
     else
         start=addatpos(start, data, pos);
     return start;
 }
-struct node *delatpos(struct node *start, int pos){
-    struct node *ptr=start;
+struct node *delval(struct node *start, int val){
+    int pos=search(start, val);
+    if(pos==0)
+        printf("Value is not present in theeee list\n");
+    else
+        start=delatpos(start, pos);
+    return start;
+}
+struct node *delbeg(struct node *start){
     if(start==NULL){
-        printf("List is empty.");
+        printf("List is empty.\n");
         return start;
     }
-    if(pos<2)
-        return start->link; 
-    for(int i=1; i<=pos; i++){
-        if(ptr==NULL){
-            printf("The required position does not exist in current list.");
+    printf("%d was at the beginning, now %d is at the beginning.", start->info, start->link->info);
+    return start->link;
+}
+struct node *delend(struct node* start){
+    if(start==NULL){
+        printf("List is empty.\n");
+        return start;
+    }
+    struct node *ptr=start;
+    if(ptr->link==NULL){
+        printf("%d was at the end, now list is empty.", ptr->info);
+        return NULL;
+    }
+    
+    while(ptr->link->link!=NULL)
+        ptr=ptr->link;
+    printf("%d was at the end, now %d is at the end.", ptr->link->info, ptr->info);
+    ptr->link=NULL;
+    
+    return start;
+}
+struct node *delatpos(struct node* start, int pos){
+    struct node * ptr=start;
+    if(start==NULL){
+        printf("list is empty");
+        return start;
+    }
+    if(pos==1){
+        printf("%d has deleted, now list is empty.", start->info, pos);
+        return start->link;
+    }
+    for(int i=2; i<pos; i++){
+        if(ptr=NULL){
+            printf("Entered position does not exists.");
             return start;
         }
-        if(i>2)
-            ptr=ptr->link;
+        ptr=ptr->link;
     }
+    printf("%d has deleted", ptr->link->info);
     ptr->link=ptr->link->link;
     return start;
+}
+struct node* reverse(struct node*start, struct node * prev){
+    if(start==NULL){
+        return prev;
+    }
+    struct node *ptr;
+    ptr=reverse(start->link, start);
+    start->link=prev;
+    return ptr;
 }
