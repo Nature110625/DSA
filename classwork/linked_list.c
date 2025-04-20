@@ -197,13 +197,12 @@ struct node *addatpos(struct node *start, int data, int pos){
         return start;
     }
     //ptr should point at position one less than the position were new element is to be added
-    for(int i=1; i<=pos; i++){   
+    for(int i=2; i<pos; i++){   
+        ptr=ptr->link;
         if(ptr==NULL){
             printf("The required position does not exist in current list.\n");
             return start;
         }
-        if(i>2)     //since we dont need to update ptr upto 2nd position.
-            ptr=ptr->link;
     }
     temp->link=ptr->link;
     ptr->link=temp;
@@ -270,11 +269,11 @@ struct node *delatpos(struct node* start, int pos){
         return start->link;
     }
     for(int i=2; i<pos; i++){
+        ptr=ptr->link;
         if(ptr=NULL){
             printf("Entered position does not exists.");
             return start;
         }
-        ptr=ptr->link;
     }
     printf("%d has deleted", ptr->link->info);
     ptr->link=ptr->link->link;
