@@ -12,9 +12,9 @@ int search(struct node *start, int data);
 struct node *addatbeg(struct node *start, int data);
 struct node *addatend(struct node *start, int data);
 struct node *addatpos(struct node *start, int data, int pos);
-// struct node *delatpos(struct node *start, int pos);
-// struct node *delbeg(struct node *start);
-// struct node *delend(struct node* start);
+struct node *delatpos(struct node *start, int pos);
+struct node *delbeg(struct node *start);
+struct node *delend(struct node* start);
 // struct node* reverse(struct node*start, struct node * prev);
 
 int main(){
@@ -30,7 +30,7 @@ int main(){
     printf("7. Add at given position\n");
     printf("8. Delete from beginning\n");
     printf("9. Delete from ending\n");
-    printf("10. delete at position\n");
+    printf("10. Delete at given position\n");
     printf("11. Reverse\n");
     printf("12. Quit\n\n");
     while(1){
@@ -54,12 +54,14 @@ int main(){
             case 3:
                 if(start==NULL){
                     printf("list is empty.\n");
+                    break;
                 }
                 printf("Number of nodes present in doubly linked list: %d\n", count(start));
                 break;
             case 4:
                 if(start==NULL){
                     printf("list is empty.\n");
+                    break;
                 }
                 printf("Enter the element to be searched: ");
                 scanf("%d", &data);
@@ -83,26 +85,28 @@ int main(){
                 scanf("%d", &pos);
                 start=addatpos(start, data, pos);
                 break;
-            // case 8:
-            //     if(start==NULL){
-            //         printf("list is empty.\n");
-            //     }
-            //     start= delbeg(start);
-            //     break;
-            // case 9: 
-            //     if(start==NULL){
-            //         printf("list is empty.\n");
-            //     }
-            //     start=delend(start);
-            //     break;   
-            // case 10:
-            //     if(start==NULL){
-            //         printf("list is empty.\n");
-            //     }
-            //     printf("Enter the position of element to be deleted: ");
-            //     scanf("%d", &data);
-            //     start=delatpos(start, data);
-            //     break;
+            case 8:
+                if(start==NULL){
+                    printf("list is empty.\n");
+                    break;
+                }
+                start= delbeg(start);
+                break;
+            case 9: 
+                if(start==NULL){
+                    printf("list is empty.\n");
+                    break;
+                }
+                start=delend(start);
+                break;   
+            case 10:
+                if(start==NULL){
+                    printf("list is empty.\n");
+                }
+                printf("Enter the position of element to be deleted: ");
+                scanf("%d", &data);
+                start=delatpos(start, data);
+                break;
             // case 11:
             //     if(start==NULL){
             //         printf("The list is empty.");
@@ -164,13 +168,18 @@ struct node *addatbeg(struct node *start, int data){
     return temp;
 }
 struct node *addatend(struct node *start, int data){
-    struct node *ptr=start;
+    struct node *ptr=start, *temp;
+    temp=(struct node *)malloc(sizeof(struct node));
+    temp->info=data;
+    temp->rlink=NULL;
+    if(start==NULL){
+        temp->llink=NULL;
+        return temp;
+    }
     while(ptr->rlink!=NULL)
         ptr=ptr->rlink;
-    ptr->rlink=(struct node *)malloc(sizeof(struct node));
-    ptr->rlink->info=data;
-    ptr->rlink->llink=ptr;
-    ptr->rlink->rlink=NULL;
+    ptr->rlink=temp;
+    temp->llink=ptr;
     return start;
 }
 struct node *addatpos(struct node *start, int data, int pos){
@@ -196,4 +205,29 @@ struct node *addatpos(struct node *start, int data, int pos){
     if(temp->rlink!=NULL)
         temp->rlink->llink=temp;
     return start;
+}
+struct node *delbeg(struct node *start){
+    if(start->rlink!=NULL)
+        start->rlink->llink=NULL;
+    printf("Deleted %d from the doubly linked list.", start->info);
+    return start->rlink;
+}
+struct node *delend(struct node* start){
+    struct node *ptr=start;
+    int val;
+    if(ptr->rlink==NULL){   //to handle last element deletion
+        val=ptr->info;
+        start=NULL;
+    }
+    else{
+        while(ptr->rlink->rlink!=NULL)  
+            ptr=ptr->rlink;
+        val=ptr->rlink->info;
+        ptr->rlink=NULL;
+    }
+    printf("Deleted %d from the doubly linked list.", val);
+    return start;
+}
+struct node *delatpos(struct node *start, int pos){
+    
 }
