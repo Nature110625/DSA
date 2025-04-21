@@ -102,6 +102,7 @@ int main(){
             case 10:
                 if(start==NULL){
                     printf("list is empty.\n");
+                    break;
                 }
                 printf("Enter the position of element to be deleted: ");
                 scanf("%d", &data);
@@ -209,7 +210,7 @@ struct node *addatpos(struct node *start, int data, int pos){
 struct node *delbeg(struct node *start){
     if(start->rlink!=NULL)
         start->rlink->llink=NULL;
-    printf("Deleted %d from the doubly linked list.", start->info);
+    printf("Deleted %d from the doubly linked list.\n", start->info);
     return start->rlink;
 }
 struct node *delend(struct node* start){
@@ -225,9 +226,31 @@ struct node *delend(struct node* start){
         val=ptr->rlink->info;
         ptr->rlink=NULL;
     }
-    printf("Deleted %d from the doubly linked list.", val);
+    printf("Deleted %d from the doubly linked list.\n", val);
     return start;
 }
 struct node *delatpos(struct node *start, int pos){
-    
+    struct node* ptr=start;
+    int val;
+    if(pos<2){
+        val=start->info;
+        start=start->rlink;
+        if(start!=NULL)
+            start->llink=NULL;
+    }
+    else{
+        for(int i=1; i<pos; i++){
+            ptr=ptr->rlink;
+            if(ptr->rlink==NULL){
+                printf("Entered position does not exist.\n");
+                return start;
+            }
+        }
+        val=ptr->rlink->info;
+        ptr->rlink=ptr->rlink->rlink;
+        if(ptr->rlink!=NULL)
+            ptr->rlink->llink=ptr; 
+    }
+    printf("Deleted %d from the doubly linked list.\n", val);
+    return start;
 }

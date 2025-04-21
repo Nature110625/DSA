@@ -1,5 +1,5 @@
 #include <stdio.h>
-int que[10], prirt[10], front=-1, rear=-1, size=3;
+int que[10], prirt[10], front=-1, rear=-1, size=10;
 
 int isfull();   //returns 1 if full else 0
 int isempty();  //returns 1 if empty else 0
@@ -29,7 +29,7 @@ int main(){
                 break;
             case 4:
                 ans=searchhp();
-                ans==-1?:printf("%d is the value of priority %d\n", que[ans], prirt[ans]);
+                ans==-1?:printf("%d is the value of highest priority %d\n", que[ans], prirt[ans]);
                 break;
             case 5:
                 printf("Enter the priority: ");
