@@ -15,7 +15,7 @@ struct node *addatpos(struct node *start, int data, int pos);
 struct node *delatpos(struct node *start, int pos);
 struct node *delbeg(struct node *start);
 struct node *delend(struct node* start);
-// struct node* reverse(struct node*start, struct node * prev);
+struct node* reverse(struct node*start);
 
 int main(){
     struct node *start=NULL;
@@ -108,13 +108,13 @@ int main(){
                 scanf("%d", &data);
                 start=delatpos(start, data);
                 break;
-            // case 11:
-            //     if(start==NULL){
-            //         printf("The list is empty.");
-            //         break;
-            //     }
-            //     start=reverse(start, NULL);
-            //     break;
+            case 11:
+                if(start==NULL){
+                    printf("The list is empty.");
+                    break;
+                }
+                start=reverse(start);
+                break;
             case 12:
                 exit(1);
             default:
@@ -187,6 +187,8 @@ struct node *addatpos(struct node *start, int data, int pos){
     struct node *ptr=start, *temp;
     temp=(struct node *)malloc(sizeof(struct node));
     if(pos<2){
+        if(start!=NULL)
+            start->llink=temp;
         temp->rlink=start;
         temp->llink=NULL;
         temp->info=data;
@@ -239,7 +241,7 @@ struct node *delatpos(struct node *start, int pos){
             start->llink=NULL;
     }
     else{
-        for(int i=1; i<pos; i++){
+        for(int i=2; i<pos; i++){
             ptr=ptr->rlink;
             if(ptr->rlink==NULL){
                 printf("Entered position does not exist.\n");
@@ -253,4 +255,14 @@ struct node *delatpos(struct node *start, int pos){
     }
     printf("Deleted %d from the doubly linked list.\n", val);
     return start;
+}
+struct node* reverse(struct node* start){
+    struct node *ptr;
+    ptr=start->llink;
+    start->llink=start->rlink;
+    start->rlink=ptr;
+    if(start->llink==NULL){
+        return start;
+    }
+    return reverse(start->llink);
 }

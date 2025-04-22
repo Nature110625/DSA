@@ -44,15 +44,31 @@ int main(){
         scanf("%d", &choice);
         switch(choice){
             case 1:
+                if(start!=NULL){
+                    printf("List had already been created.\n");
+                    break;
+                }
                 start=create_list(start);
                 break;
             case 2:
+                if(start==NULL){
+                    printf("The list is empty.\n");
+                    break;
+                }
                 display(start);
                 break;
             case 3:
+                if(start==NULL){
+                    printf("The list is empty.\n");
+                    break;
+                }
                 printf("Number of nodes present in linked list: %d", count(start));
                 break;
-            case 4: 
+            case 4:
+                if(start==NULL){
+                    printf("The list is empty.\n");
+                    break;
+                }
                 printf("Enter the element to be searched: ");
                 scanf("%d", &data);
                 temp=search(start, data);
@@ -90,24 +106,40 @@ int main(){
                 start=addafter(start, data, item);
                 break;
             case 10:
+                if(start==NULL){
+                    printf("The list is empty.\n");
+                    break;
+                }
                 start= delbeg(start);
                 break;
             case 11: 
+                if(start==NULL){
+                    printf("The list is empty.\n");
+                    break;
+                }
                 start=delend(start);
                 break;   
             case 12:
+                if(start==NULL){
+                    printf("The list is empty.\n");
+                    break;
+                }
                 printf("Enter the position of element to be deleted: ");
                 scanf("%d", &data);
                 start=delatpos(start, data);
                 break;
             case 13:
+                if(start==NULL){
+                    printf("The list is empty.\n");
+                    break;
+                }
                 printf("Enter the value you want to delete: ");
                 scanf("%d", &data);
                 start=delval(start, data);
                 break;
             case 14:
                 if(start==NULL){
-                    printf("The list is empty.");
+                    printf("The list is empty.\n");
                     break;
                 }
                 start=reverse(start, NULL);
@@ -121,28 +153,19 @@ int main(){
 }
 
 struct node *create_list(struct node* start){
-    if(start!=NULL){
-        printf("List had already been created.\n");
-        return start;
-    }
     int val;
-    printf("Enter the element to be inserted: ");
-    scanf("%d", &val);
     start=(struct node *)malloc(sizeof(struct node));
-    start->info=val;
     start->link=NULL;
+    printf("Enter the element to be inserted: ");
+    scanf("%d", &start->info);
     return start;
 }
 void display(struct node *start){
-    if(start==NULL){
-        printf("The list is empty.\n");
-        return;
+    while(start!=NULL){
+        printf("%d ", start->info);
+        start=start->link;
     }
-    struct node *p=start;
-    while(p!=NULL){
-        printf("%d ", p->info);
-        p=p->link;
-    }
+    printf("\n");
 }
 int count(struct node *start){
     int count=0;
@@ -169,8 +192,7 @@ struct node *addatbeg(struct node *start, int data){
     temp=(struct node *)malloc(sizeof(struct node));
     temp->info=data;
     temp->link=start;
-    start=temp;
-    return start;
+    return temp;
 }
 struct node *addatend(struct node *start, int data){
     struct node *temp, *ptr=start;
@@ -191,12 +213,12 @@ struct node *addatpos(struct node *start, int data, int pos){
     temp=(struct node *)malloc(sizeof(struct node));
     temp->info=data;
     temp->link=NULL;
-    if(pos<=1||start==NULL){//To add at position 1 even if list is empty
+    if(pos<2){  //add a new node at position one in an empty list also
         temp->link=start;
         start=temp;
         return start;
     }
-    //ptr should point at position one less than the position were new element is to be added
+    //no need to update ptr to add at pos 1 and 2
     for(int i=2; i<pos; i++){   
         ptr=ptr->link;
         if(ptr==NULL){
@@ -204,6 +226,7 @@ struct node *addatpos(struct node *start, int data, int pos){
             return start;
         }
     }
+    //after iteration ptr points at position one less than the position were new element is to be added
     temp->link=ptr->link;
     ptr->link=temp;
     return start;
@@ -233,49 +256,38 @@ struct node *delval(struct node *start, int val){
     return start;
 }
 struct node *delbeg(struct node *start){
-    if(start==NULL){
-        printf("List is empty.\n");
-        return start;
-    }
-    printf("%d was at the beginning, now %d is at the beginning.", start->info, start->link->info);
+    if(start->link==NULL)
+        printf("%d was at the beginning, now list is empty.\n", start->info);
+    else
+        printf("%d was at the beginning, now %d is at the beginning.\n", start->info, start->link->info);
     return start->link;
 }
 struct node *delend(struct node* start){
-    if(start==NULL){
-        printf("List is empty.\n");
-        return start;
-    }
     struct node *ptr=start;
     if(ptr->link==NULL){
-        printf("%d was at the end, now list is empty.", ptr->info);
+        printf("%d was at the end, now list is empty.\n", ptr->info);
         return NULL;
     }
-    
-    while(ptr->link->link!=NULL)
+    while(ptr->link->link!=NULL)    //points at second last position
         ptr=ptr->link;
-    printf("%d was at the end, now %d is at the end.", ptr->link->info, ptr->info);
+    printf("%d was at the end, now %d is at the end.\n", ptr->link->info, ptr->info);
     ptr->link=NULL;
-    
     return start;
 }
 struct node *delatpos(struct node* start, int pos){
     struct node * ptr=start;
-    if(start==NULL){
-        printf("list is empty");
-        return start;
-    }
-    if(pos==1){
-        printf("%d has deleted, now list is empty.", start->info, pos);
+    if(pos<2){
+        printf("%d has deleted.\n", start->info);
         return start->link;
     }
     for(int i=2; i<pos; i++){
         ptr=ptr->link;
-        if(ptr=NULL){
-            printf("Entered position does not exists.");
+        if(ptr->link==NULL){
+            printf("Entered position does not exists.\n");
             return start;
         }
     }
-    printf("%d has deleted", ptr->link->info);
+    printf("%d has deleted\n", ptr->link->info);
     ptr->link=ptr->link->link;
     return start;
 }
