@@ -57,33 +57,6 @@ int main(){
         }
     }
 }
-// struct node *insert(struct node *start, int val){
-//     struct node *temp, *prev, *next=start;
-//     temp=(struct node *)malloc(sizeof(struct node));
-//     temp->info=val;
-//     temp->rchild=NULL;
-//     temp->lchild=NULL;
-//     if(start==NULL)
-//         return temp;
-//     while(next!=NULL){
-//         prev=next;
-//         if(val<next->info)
-//             next=next->lchild;
-//         else{
-//             if(val>next->info)
-//                 next=next->rchild;
-//             else{
-//                 printf("Number already exists.\n");
-//                 return start;
-//             }
-//         }
-//     }
-//     if(val<prev->info)
-//         prev->lchild=temp;
-//     else
-//         prev->rchild=temp;
-//     return start;
-// }
 void inorder(struct node * start){
     if(start==NULL)
         return;
